@@ -15,7 +15,7 @@ export class Participant {
   @Column({ default: false })
   teamLeader: boolean;
 
-  @ManyToOne(() => Team, (team) => team.participants)
+  @ManyToOne(() => Team, (team) => team.participants, { cascade: true })
   team: Team;
 
   @Column({ nullable: true, length: 9, type: 'char' })

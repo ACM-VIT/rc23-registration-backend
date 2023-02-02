@@ -12,10 +12,6 @@ export class ParticipantsService {
     private participantRepository: Repository<Participant>,
   ) {}
 
-  findOne(id: number): Promise<Participant> {
-    return this.participantRepository.findOneBy({ id });
-  }
-
   async create(createParticipantDto: CreateParticipantDto) {
     const participant = await this.participantRepository.findOneBy({
       email: createParticipantDto.email,
@@ -27,7 +23,6 @@ export class ParticipantsService {
       );
       await this.participantRepository.save(participant);
       const email = participant.email;
-      console.log(email);
       participant = await this.participantRepository.findOneBy({
         email,
       });

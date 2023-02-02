@@ -10,7 +10,7 @@ export class ParticipantsController {
 
   @UseGuards(JwtAuthGuard)
   @Post('info')
-  async addInfo(@Req() req, @Body() updateInfoDto: UpdateInfoDto) {
+  async updateInfo(@Req() req, @Body() updateInfoDto: UpdateInfoDto) {
     return await this.participantService.updateInfo(req.user.id, updateInfoDto);
   }
 }
