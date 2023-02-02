@@ -18,13 +18,13 @@ export class Participant {
   @ManyToOne(() => Team, (team) => team.participants)
   team: Team;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 9, type: 'char' })
   regNum: string;
 
-  @Column({ nullable: true})
+  @Column({ type: 'bigint', nullable: true })
   phone: number;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   uniName: string;
 
   @Column({ default: false })

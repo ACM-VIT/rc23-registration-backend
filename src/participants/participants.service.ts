@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { UpdateInfoDto } from './dto/update-info.dto';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { Participant } from './participants.entity';
 
@@ -34,5 +35,20 @@ export class ParticipantsService {
     }
 
     return participant;
+  }
+
+  async updateInfo(id: number, updateInfoDto: UpdateInfoDto) {
+    try {
+      const participant = await this.participantRepository.findOneBy({ id });
+      participant.regNum = updateInfoDto.regNum;
+      participant.phone = updateInfoDto.phone;
+      participant.uniName = updateInfoDto.uniName;
+      participant.fresher = updateInfoDto.fresher;
+
+      await this.participantRepository.save(participant);
+      return { message: 'Successfully Added' };
+    } catch (error) {
+      return {message: error.message};
+    }
   }
 }
