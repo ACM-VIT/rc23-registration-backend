@@ -5,14 +5,23 @@ import { AuthService } from './auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ParticipantsModule } from 'src/participants/participants.module';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
     ParticipantsModule,
-    JwtModule.register({
-      secret: 'secret',
-      signOptions: { expiresIn: '10000s' },
+    JwtModule.registerAsync({
+      useFactory: (config: ConfigService) => {
+        return {
+          secret: config.get<string>('jwt.secret'),
+          signOptions: {
+            expiresIn: config.get<string | number>('jwt.expiry'),
+          },
+        };
+      },
+      inject: [ConfigService],
     }),
+    ConfigModule,
   ],
   controllers: [AuthController],
   providers: [GoogleStrategy, AuthService, JwtStrategy],

@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { typeOrmConfig } from './config/typeOrm.config';
+import { typeOrmConfig } from '../config/typeOrm.config';
 import { TeamsModule } from './teams/teams.module';
 import { ParticipantsModule } from './participants/participants.module';
 import { ConfigModule } from '@nestjs/config';
+import configuration from '../config/configuration';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { ConfigModule } from '@nestjs/config';
     TeamsModule,
     ParticipantsModule,
     ConfigModule.forRoot({
-      envFilePath: '/home/kaushalrathi/reverseCoding/rc23-registration-backend/src/config/.env',
+      load:[configuration],
       isGlobal: true,
     }),
   ],
