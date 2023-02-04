@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ParticipantsService } from 'src/participants/participants.service';
+import { participantInfo } from './auth.interfaces';
 
 @Injectable()
 export class AuthService {
@@ -20,13 +21,10 @@ export class AuthService {
     if (!participant) {
       participant = await this.participantService.create(req.user);
     }
-    const token = this.jwtService.sign({ id: participant.id });
+    const token = this.jwtService.sign({ id: participant.id, email: participant.email });
     let nextPage: string;
-    const participantInfo = {
+    const participantInfo: participantInfo = {
       name: participant.name,
-      teamName: null,
-      teamCode: null,
-      teamMembers: null,
     };
     if (!participant.phone) {
       nextPage = 'info';
@@ -36,7 +34,11 @@ export class AuthService {
       nextPage = 'final';
       participantInfo.teamName = participant.team.name;
       participantInfo.teamCode = participant.team.teamcode;
-      participantInfo.teamMembers = participant.team.participants;
+      participantInfo.teamMembers = participant.team.participants.map(
+        (participant) => {
+          return participant.name;
+        },
+      );
     }
     return {
       participantInfo,
