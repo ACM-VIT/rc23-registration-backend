@@ -14,7 +14,7 @@ export class TeamsController {
     try {
       return await this.teamService.createTeam(req.user.id, createTeamDto);
     } catch (error) {
-      return error;
+      return error.response;
     }
   }
 
@@ -24,7 +24,7 @@ export class TeamsController {
     try {
       return await this.teamService.confirmTeam(req.user.id, confirmTeamDto);
     } catch (error) {
-      return error;
+      return error.response;
     }
   }
 
@@ -34,7 +34,7 @@ export class TeamsController {
     try {
       return await this.teamService.joinTeam(req.user.id, joinTeamDto);
     } catch (error) {
-      return error;
+      return error.response;
     }
   }
 
@@ -44,7 +44,7 @@ export class TeamsController {
     try {
       return await this.teamService.leaveTeam(req.user.id);
     } catch (error) {
-      return error;
+      return error.response;
     }
   }
 }

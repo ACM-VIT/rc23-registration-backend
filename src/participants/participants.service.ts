@@ -12,23 +12,23 @@ export class ParticipantsService {
     private participantRepository: Repository<Participant>,
   ) {}
 
-  async create(createParticipantDto: CreateParticipantDto) {
-    const participant = await this.participantRepository.findOneBy({
-      email: createParticipantDto.email,
+  async findOneByEmail(email: string) {
+    return await this.participantRepository.findOne({
+      where: { email },
+      relations: { team: true },
     });
+  }
 
-    if (!participant) {
-      let participant = await this.participantRepository.create(
-        createParticipantDto,
-      );
-      await this.participantRepository.save(participant);
-      const email = participant.email;
-      participant = await this.participantRepository.findOneBy({
-        email,
-      });
-      return participant;
-    }
-
+  async create(createParticipantDto: CreateParticipantDto) {
+    let participant = await this.participantRepository.create(
+      createParticipantDto,
+    );
+    await this.participantRepository.save(participant);
+    const email = participant.email;
+    participant = await this.participantRepository.findOne({
+      where: { email },
+      relations: { team: true },
+    });
     return participant;
   }
 
@@ -43,7 +43,7 @@ export class ParticipantsService {
       await this.participantRepository.save(participant);
       return { message: 'Successfully Added' };
     } catch (error) {
-      return {message: error.message};
+      return { message: error.message };
     }
   }
 }

@@ -14,12 +14,34 @@ export class AuthService {
       return 'No user from google';
     }
 
-    const participant = await this.participantService.create(req.user);
-    const payload = { id: participant.id };
-    const token = this.jwtService.sign(payload);
-    return {
+    let participant = await this.participantService.findOneByEmail(
+      req.user.email,
+    );
+    if (!participant) {
+      participant = await this.participantService.create(req.user);
+    }
+    const token = this.jwtService.sign({ id: participant.id });
+    let nextPage: string;
+    const participantInfo = {
       name: participant.name,
+      teamName: null,
+      teamCode: null,
+      teamMembers: null,
+    };
+    if (!participant.phone) {
+      nextPage = 'info';
+    } else if (!participant.team) {
+      nextPage = 'team';
+    } else {
+      nextPage = 'final';
+      participantInfo.teamName = participant.team.name;
+      participantInfo.teamCode = participant.team.teamcode;
+      participantInfo.teamMembers = participant.team.participants;
+    }
+    return {
+      participantInfo,
       token,
+      nextPage,
     };
   }
 }
