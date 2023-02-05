@@ -1,14 +1,16 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class RolesGuard implements CanActivate {
+export class AdminGuard implements CanActivate {
+  constructor(private configService: ConfigService) {}
 
-  readonly admins = ['kaushalrathi24@gmail.com']  
+  readonly admins = this.configService.get<string[]>('admins');
   canActivate(
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const request = context.switchToHttp().getRequest()
+    const request = context.switchToHttp().getRequest();
     return this.admins.includes(request.user.email);
   }
 }
