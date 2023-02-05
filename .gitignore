@@ -37,4 +37,4 @@ lerna-debug.log*
 
 #config files
 config/config.yaml
-config/typeOrm.config.ts
+config/db.config.ts
