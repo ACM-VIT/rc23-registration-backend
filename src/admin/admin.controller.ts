@@ -9,8 +9,7 @@ import { AdminService } from './admin.service';
 export class AdminController {
   constructor(private adminService: AdminService) {}
 
-  @UseGuards(JwtAuthGuard)
-  @UseGuards(AdminGuard)
+  @UseGuards(JwtAuthGuard, AdminGuard)
   @Post('status')
   async updateStatus(@Body() updateStatusDto: UpdateStatusDto) {
     try {

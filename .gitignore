@@ -38,3 +38,4 @@ lerna-debug.log*
 #config files
 config/config.yaml
 config/db.config.ts
+config/status.txt

@@ -5,8 +5,7 @@ import { ConfirmTeamDto } from './dto/confirm-team.dto';
 import { CreateTeamDto } from './dto/create-team.dto';
 import { TeamsService } from './teams.service';
 
-@UseGuards(JwtAuthGuard)
-@UseGuards(EventStartGuard)
+@UseGuards(EventStartGuard, JwtAuthGuard)
 @Controller('teams')
 export class TeamsController {
   constructor(private teamService: TeamsService) {}
