@@ -24,7 +24,7 @@ export class AdminService {
       let i = 0;
       while (true) {
         try {
-          const name = participant.name + "_" + String(i);
+          const name = participant.name + '_' + String(i);
           await this.teamService.createTeam(participant.id, { name });
           i = 0;
           break;

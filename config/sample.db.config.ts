@@ -13,7 +13,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
 
 
 export const redisConfig = {
-  ttl: 0,
   host: 'localhost',
   port: 6379,
 };

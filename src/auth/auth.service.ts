@@ -21,7 +21,10 @@ export class AuthService {
     if (!participant) {
       participant = await this.participantService.create(req.user);
     }
-    const token = this.jwtService.sign({ id: participant.id, email: participant.email });
+    const token = this.jwtService.sign({
+      id: participant.id,
+      email: participant.email,
+    });
     let nextPage: string;
     const participantInfo: participantInfo = {
       name: participant.name,

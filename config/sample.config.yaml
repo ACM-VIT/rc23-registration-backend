@@ -1,5 +1,11 @@
 jwt:
-  secret: 'CXAmZ9cpZvtH2zsr9ch66duMN'
+  secret: 'secret'
   expiry: '259200s'
 
-admins: -'kaushalrathi24@gmail.com'
+admins:
+  - 'admin emails'
+
+googleOauth:
+  clientId: 'clientID'
+  clientSecret: 'slientSecret'
+  callbackUrl: 'callbackurl'

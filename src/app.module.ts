@@ -8,14 +8,15 @@ import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import configuration from '../config/configuration';
 import * as redisStore from 'cache-manager-redis-store';
+import { redisConfig } from 'config/sample.db.config';
 
 @Module({
   imports: [
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
-      host: 'localhost',
-      port: 6379,
+      host: redisConfig.host,
+      port: redisConfig.port,
       ttl: 0,
     }),
     TypeOrmModule.forRoot(typeOrmConfig),

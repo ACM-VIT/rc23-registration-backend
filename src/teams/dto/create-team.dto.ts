@@ -6,4 +6,3 @@ export class CreateTeamDto {
   @MaxLength(35)
   name: string;
 }
-
