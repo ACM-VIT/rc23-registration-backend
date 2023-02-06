@@ -19,6 +19,15 @@ export class ParticipantsService {
     });
   }
 
+  async findOneWithNoTeam() {
+    return await this.participantRepository.find({
+      where: {
+        team: null,
+      },
+      relations: { team: true },
+    });
+  }
+
   async create(createParticipantDto: CreateParticipantDto) {
     let participant = await this.participantRepository.create(
       createParticipantDto,

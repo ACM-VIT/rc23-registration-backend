@@ -10,3 +10,10 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   entities: [__dirname + '/../**/*.entity.js'],
   synchronize: false,
 };
+
+
+export const redisConfig = {
+  ttl: 0,
+  host: 'localhost',
+  port: 6379,
+};
