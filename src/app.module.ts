@@ -7,12 +7,16 @@ import { ParticipantsModule } from './participants/participants.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import configuration from '../config/configuration';
+import * as redisStore from 'cache-manager-redis-store';
 
 @Module({
   imports: [
     CacheModule.register({
-      ttl: 0,
       isGlobal: true,
+      store: redisStore,
+      host: 'localhost',
+      port: 6379,
+      ttl: 0,
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
