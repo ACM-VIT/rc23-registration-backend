@@ -11,7 +11,6 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   synchronize: false,
 };
 
-
 export const redisConfig = {
   host: 'localhost',
   port: 6379,

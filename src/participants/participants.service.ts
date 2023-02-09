@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { UpdateInfoDto } from './dto/update-info.dto';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { Participant } from './participants.entity';
+import { ParticipantInfo } from './participant.interfaces';
 
 @Injectable()
 export class ParticipantsService {
@@ -51,6 +52,43 @@ export class ParticipantsService {
 
       await this.participantRepository.save(participant);
       return { message: 'Successfully Added' };
+    } catch (error) {
+      return { message: error.message };
+    }
+  }
+
+  async getInfo(id: number) {
+    try {
+      const participant = await this.participantRepository.findOne({
+        where: { id },
+        relations: { team: true },
+      });
+
+      const participantInfo: ParticipantInfo = {
+        name: participant.name,
+      };
+
+      let nextPage: string;
+
+      if (!participant.phone) {
+        nextPage = 'info';
+      } else if (!participant.team) {
+        nextPage = 'team';
+      } else {
+        nextPage = 'final';
+        participantInfo.teamName = participant.team.name;
+        participantInfo.teamCode = participant.team.teamcode;
+        participantInfo.teamMembers = participant.team.participants.map(
+          (participant) => {
+            return participant.name;
+          },
+        );
+      }
+
+      return {
+        participantInfo,
+        nextPage,
+      };
     } catch (error) {
       return { message: error.message };
     }

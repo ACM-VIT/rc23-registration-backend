@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  Inject,
-  CACHE_MANAGER,
-} from '@nestjs/common';
+import { Injectable, CanActivate, Inject, CACHE_MANAGER } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import Cache from 'cache-manager';
 
@@ -12,9 +6,7 @@ import Cache from 'cache-manager';
 export class EventStartGuard implements CanActivate {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(): boolean | Promise<boolean> | Observable<boolean> {
     return this.validateStatus();
   }
 

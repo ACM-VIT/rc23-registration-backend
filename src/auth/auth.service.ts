@@ -1,52 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  Inject,
+  CACHE_MANAGER,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { ParticipantsService } from 'src/participants/participants.service';
-import { participantInfo } from './auth.interfaces';
+import Cache from 'cache-manager';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly participantService: ParticipantsService,
     private readonly jwtService: JwtService,
+    private configService: ConfigService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
   async googleLogin(req) {
     if (!req.user) {
       return 'No user from google';
     }
-
     let participant = await this.participantService.findOneByEmail(
       req.user.email,
     );
     if (!participant) {
+      if (this.cacheManager.get<number>('status') != 0) {
+        throw new BadRequestException("User doesn't exist ");
+      }
       participant = await this.participantService.create(req.user);
     }
     const token = this.jwtService.sign({
       id: participant.id,
       email: participant.email,
     });
-    let nextPage: string;
-    const participantInfo: participantInfo = {
-      name: participant.name,
-    };
-    if (!participant.phone) {
-      nextPage = 'info';
-    } else if (!participant.team) {
-      nextPage = 'team';
-    } else {
-      nextPage = 'final';
-      participantInfo.teamName = participant.team.name;
-      participantInfo.teamCode = participant.team.teamcode;
-      participantInfo.teamMembers = participant.team.participants.map(
-        (participant) => {
-          return participant.name;
-        },
-      );
-    }
-    return {
-      participantInfo,
-      token,
-      nextPage,
-    };
+
+    const url =
+      this.configService.get<string>('redirectUrl') + '?token=' + token;
+
+    return { url };
   }
 }

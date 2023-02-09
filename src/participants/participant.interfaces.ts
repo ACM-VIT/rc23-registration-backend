@@ -1,7 +1,6 @@
-export interface participantInfo {
+export interface ParticipantInfo {
   name: string;
   teamName?: string;
   teamCode?: string;
   teamMembers?: string[];
-  qualifiedRound2?: boolean;
 }
