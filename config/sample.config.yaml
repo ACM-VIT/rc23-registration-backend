@@ -9,3 +9,5 @@ googleOauth:
   clientId: 'clientID'
   clientSecret: 'slientSecret'
   callbackUrl: 'callbackurl'
+
+redirectUrl: 'http://rc2023.acmvit.in/auth/google/redirect'
