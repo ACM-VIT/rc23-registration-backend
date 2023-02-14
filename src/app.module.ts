@@ -8,7 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
 import configuration from '../config/configuration';
 import * as redisStore from 'cache-manager-redis-store';
-import { redisConfig } from 'config/sample.db.config';
+import { redisConfig } from 'config/db.config';
 
 @Module({
   imports: [

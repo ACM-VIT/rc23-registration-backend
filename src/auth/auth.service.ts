@@ -27,7 +27,7 @@ export class AuthService {
     );
     if (!participant) {
       if (
-        this.cacheManager.get<number>('status') != 0 ||
+        this.cacheManager.get<number>('status') != 0 &&
         !this.configService.get<string[]>('admins').includes(req.user.email)
       ) {
         throw new BadRequestException("User doesn't exist ");
