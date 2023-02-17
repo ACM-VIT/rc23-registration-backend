@@ -11,10 +11,12 @@ export class EventStartGuard implements CanActivate {
   }
 
   async validateStatus() {
-    const status = await this.cacheManager.get('status');
-    if (status == 0) {
-      return true;
-    }
-    return false;
+    return !(await this.cacheManager.get('status'));
+    //   console.log(status);
+    //   if (status == 0) {
+    //     console.log('yes');
+    //     return true;
+    //   }
+    //   return false;
   }
 }

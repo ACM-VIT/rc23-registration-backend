@@ -4,7 +4,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { UpdateStatusDto } from './dto/update-status.dto';
 import { AdminService } from './admin.service';
 
-UseGuards(JwtAuthGuard, AdminGuard);
+@UseGuards(JwtAuthGuard, AdminGuard)
 @Controller('admin')
 export class AdminController {
   constructor(private adminService: AdminService) {}
@@ -12,8 +12,10 @@ export class AdminController {
   @Post('status')
   async updateStatus(@Body() updateStatusDto: UpdateStatusDto) {
     try {
+      console.log('yes');
       return await this.adminService.updateStatus(updateStatusDto.status);
     } catch (error) {
+      console.log('no');
       return error;
     }
   }

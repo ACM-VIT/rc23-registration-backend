@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { EventStartGuard } from 'src/auth/guards/disableRoutes.auth.guard';
 import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { ConfirmTeamDto } from './dto/confirm-team.dto';
@@ -10,7 +18,6 @@ import { TeamsService } from './teams.service';
 export class TeamsController {
   constructor(private teamService: TeamsService) {}
 
-  //@UseGuards(JwtAuthGuard)
   @Post('create')
   async createTeam(@Req() req, @Body() createTeamDto: CreateTeamDto) {
     try {
@@ -20,9 +27,8 @@ export class TeamsController {
     }
   }
 
-  //@UseGuards(JwtAuthGuard)
   @Get('confirm')
-  async confirmTeam(@Req() req, @Body() confirmTeamDto: ConfirmTeamDto) {
+  async confirmTeam(@Req() req, @Query() confirmTeamDto: ConfirmTeamDto) {
     try {
       return await this.teamService.confirmTeam(req.user.id, confirmTeamDto);
     } catch (error) {
@@ -30,7 +36,6 @@ export class TeamsController {
     }
   }
 
-  // @UseGuards(JwtAuthGuard)
   @Post('join')
   async joinTeam(@Req() req, @Body() joinTeamDto: ConfirmTeamDto) {
     try {
@@ -40,7 +45,6 @@ export class TeamsController {
     }
   }
 
-  //@UseGuards(JwtAuthGuard)
   @Post('leave')
   async leaveTeam(@Req() req) {
     try {
