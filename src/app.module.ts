@@ -9,9 +9,15 @@ import { AdminModule } from './admin/admin.module';
 import configuration from '../config/configuration';
 import * as redisStore from 'cache-manager-redis-store';
 import { redisConfig } from 'config/db.config';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 3,
+    }),
     CacheModule.register({
       isGlobal: true,
       store: redisStore,
@@ -28,6 +34,12 @@ import { redisConfig } from 'config/db.config';
       isGlobal: true,
     }),
     AdminModule,
+  ],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
   ],
 })
 export class AppModule {}
