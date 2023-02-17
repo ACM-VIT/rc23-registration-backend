@@ -24,6 +24,7 @@ import { APP_GUARD } from '@nestjs/core';
       host: redisConfig.host,
       port: redisConfig.port,
       ttl: 0,
+      auth_pass: redisConfig.auth_pass,
     }),
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
