@@ -9,7 +9,7 @@ import {
 
 export class UpdateInfoDto {
   @IsString()
-  @Matches(/^(19|2[0-2])(BCT|BCE|CSE)[0-9]{4}$/)
+  @Matches(/^(19|2[0-2])([A-Z]{3})[0-9]{4}$/)
   regNum: string;
 
   @IsNumber()
