@@ -12,10 +12,8 @@ export class AdminController {
   @Post('status')
   async updateStatus(@Body() updateStatusDto: UpdateStatusDto) {
     try {
-      console.log('yes');
       return await this.adminService.updateStatus(updateStatusDto.status);
     } catch (error) {
-      console.log('no');
       return error;
     }
   }

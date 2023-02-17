@@ -5,12 +5,16 @@ import { UpdateInfoDto } from './dto/update-info.dto';
 import { CreateParticipantDto } from './dto/create-participant.dto';
 import { Participant } from './participants.entity';
 import { ParticipantInfo } from './participant.interfaces';
+import { Team } from 'src/teams/teams.entity';
 
 @Injectable()
 export class ParticipantsService {
   constructor(
     @InjectRepository(Participant)
     private participantRepository: Repository<Participant>,
+
+    @InjectRepository(Team)
+    private teamRepository: Repository<Team>,
   ) {}
 
   async findOneByEmail(email: string) {
@@ -78,11 +82,15 @@ export class ParticipantsService {
         nextPage = 'final';
         participantInfo.teamName = participant.team.name;
         participantInfo.teamCode = participant.team.teamcode;
-        participantInfo.teamMembers = participant.team.participants.map(
-          (participant) => {
-            return participant.name;
+        const team = await this.teamRepository.findOne({
+          where: {
+            id: participant.team.id,
           },
-        );
+          relations: { participants: true },
+        });
+        participantInfo.teamMembers = team.participants.map((participant) => {
+          return participant.name;
+        });
       }
 
       return {

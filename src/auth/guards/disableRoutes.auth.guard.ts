@@ -12,11 +12,5 @@ export class EventStartGuard implements CanActivate {
 
   async validateStatus() {
     return !(await this.cacheManager.get('status'));
-    //   console.log(status);
-    //   if (status == 0) {
-    //     console.log('yes');
-    //     return true;
-    //   }
-    //   return false;
   }
 }
