@@ -20,10 +20,10 @@ services:
     - /bin/sh
     - -c
     - redis-server --requirepass "$${REDIS_PASSWORD:?REDIS_PASSWORD variable is not set}"
-  volumes:
+    volumes:
     - redis:/var/lib/redis/data
     - ./redis.conf:/usr/local/etc/redis/redis.conf
-  ports:
+    ports:
     - "6379"
 
   postgres:
@@ -41,4 +41,6 @@ services:
 
 volumes:
   redis:
+    driver: local
+  docker-nest-postgres:
     driver: local
