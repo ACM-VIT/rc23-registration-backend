@@ -26,12 +26,12 @@ import { SentryModule, SentryInterceptor } from '@ntegral/nestjs-sentry';
       load: [configuration],
       isGlobal: true,
     }),
-    SentryModule.forRoot({
-      dsn: sentry_dsn,
-      debug: true,
-      environment: 'production',
-      logLevels: ['debug'],
-    }),
+    // SentryModule.forRoot({
+    //   dsn: sentry_dsn,
+    //   debug: true,
+    //   environment: 'production',
+    //   logLevels: ['debug'],
+    // }),
     AdminModule,
   ],
   providers: [
@@ -39,18 +39,18 @@ import { SentryModule, SentryInterceptor } from '@ntegral/nestjs-sentry';
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
     },
-    {
-      provide: APP_INTERCEPTOR,
-      useFactory: () =>
-        new SentryInterceptor({
-          filters: [
-            {
-              type: HttpException,
-              //filter: (exception: HttpException) => 500 > exception.getStatus(), // Only report 500 errors
-            },
-          ],
-        }),
-    },
+    // {
+    //   provide: APP_INTERCEPTOR,
+    //   useFactory: () =>
+    //     new SentryInterceptor({
+    //       filters: [
+    //         {
+    //           type: HttpException,
+    //           //filter: (exception: HttpException) => 500 > exception.getStatus(), // Only report 500 errors
+    //         },
+    //       ],
+    //     }),
+    // },
   ],
 })
 export class AppModule {}

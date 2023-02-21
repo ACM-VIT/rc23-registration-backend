@@ -41,6 +41,4 @@ config/db.config.ts
 config/status.txt
 config/redis.conf
 
-.dockerignore
-
 .env
