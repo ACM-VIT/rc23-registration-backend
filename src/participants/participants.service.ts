@@ -34,9 +34,7 @@ export class ParticipantsService {
   }
 
   async create(createParticipantDto: CreateParticipantDto) {
-    let participant = await this.participantRepository.create(
-      createParticipantDto,
-    );
+    let participant = this.participantRepository.create(createParticipantDto);
     await this.participantRepository.save(participant);
     const email = participant.email;
     participant = await this.participantRepository.findOne({
