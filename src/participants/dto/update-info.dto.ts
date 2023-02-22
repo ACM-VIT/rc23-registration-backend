@@ -4,7 +4,9 @@ import {
   IsNumber,
   IsString,
   Matches,
+  Max,
   MaxLength,
+  Min,
 } from 'class-validator';
 
 export class UpdateInfoDto {
@@ -13,6 +15,8 @@ export class UpdateInfoDto {
   regNum: string;
 
   @IsNumber()
+  @Min(0)
+  @Max(922337203685477)
   phone: number;
 
   @IsString()
